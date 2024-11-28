@@ -3,10 +3,10 @@ use winit::event::VirtualKeyCode;
 
 pub fn tick(state: &GameState, last_key: Option<VirtualKeyCode>) -> GameState {
     let new_vel = match last_key {
-        Some(VirtualKeyCode::Left) => [-5, 0],
-        Some(VirtualKeyCode::Up) => [0, -5],
-        Some(VirtualKeyCode::Right) => [5, 0],
-        Some(VirtualKeyCode::Down) => [0, 5],
+        Some(VirtualKeyCode::Left) => [-1, 0],
+        Some(VirtualKeyCode::Up) => [0, -1],
+        Some(VirtualKeyCode::Right) => [1, 0],
+        Some(VirtualKeyCode::Down) => [0, 1],
         _ => state.pacman.vel,
     };
     GameState {
