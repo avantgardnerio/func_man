@@ -1,7 +1,6 @@
 use crate::INITIAL_MAP;
 use femtovg::renderer::OpenGl;
 use femtovg::{Canvas, Color, Paint, Path};
-use std::arch::aarch64::vabs_f32;
 
 pub fn render_powerup(canvas: &mut Canvas<OpenGl>, x: f32, y: f32, time: f32) {
     let px_per_cell = (canvas.width() as f32 / INITIAL_MAP.len() as f32).floor();

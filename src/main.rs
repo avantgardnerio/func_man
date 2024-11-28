@@ -20,7 +20,6 @@ use glutin_winit::DisplayBuilder;
 use crate::renderers::render_scene;
 use femtovg::Color;
 use winit::event::ElementState;
-use winit::event::Event::UserEvent;
 use winit::{
     event::{Event, WindowEvent},
     event_loop::ControlFlow,
@@ -73,7 +72,7 @@ fn run(
         window.request_redraw();
     });
 
-    el.run(move |event, window, control_flow| {
+    el.run(move |event, _window, control_flow| {
         *control_flow = ControlFlow::Poll;
 
         match event {

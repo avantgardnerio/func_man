@@ -9,15 +9,15 @@ use crate::renderers::pacman::render_pacman;
 use crate::renderers::pellet::render_pellet;
 use crate::renderers::powerup::render_powerup;
 use crate::renderers::wall::render_wall;
-use crate::{GameState, INITIAL_MAP};
+use crate::GameState;
 use femtovg::renderer::OpenGl;
 use femtovg::Canvas;
 
 pub fn render_scene(canvas: &mut Canvas<OpenGl>, state: &GameState) {
     // map
-    for y in 0..INITIAL_MAP.len() as u32 {
-        for x in 0..INITIAL_MAP.len() as u32 {
-            match INITIAL_MAP[y as usize][x as usize] {
+    for y in 0..state.map.len() as u32 {
+        for x in 0..state.map.len() as u32 {
+            match state.map[y as usize][x as usize] {
                 0 => render_wall(canvas, x, y),
                 1 => render_pellet(),
                 2 => render_floor(),
@@ -29,5 +29,9 @@ pub fn render_scene(canvas: &mut Canvas<OpenGl>, state: &GameState) {
     }
 
     // pacman
-    render_pacman(canvas, state.pacman.pos[0] as f32, state.pacman.pos[1] as f32);
+    render_pacman(
+        canvas,
+        state.pacman.pos[0] as f32,
+        state.pacman.pos[1] as f32,
+    );
 }
