@@ -18,7 +18,7 @@ pub fn render_scene(canvas: &mut Canvas<OpenGl>, state: &GameState) {
     for y in 0..state.map.len() as u32 {
         for x in 0..state.map.len() as u32 {
             match state.map[y as usize][x as usize] {
-                0 => render_wall(canvas, x, y),
+                0 => render_wall(canvas, x as f32, y as f32),
                 1 => render_pellet(),
                 2 => render_floor(),
                 3 => render_floor(),

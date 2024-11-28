@@ -16,7 +16,6 @@ pub fn tick(state: &GameState, last_key: Option<VirtualKeyCode>) -> GameState {
                 (state.pacman.pos[0] as i32 + new_vel[0] as i32) as u32,
                 (state.pacman.pos[1] as i32 + new_vel[1] as i32) as u32,
             ],
-            ..state.pacman.clone()
         },
         time: state.time + 1,
         ..state.clone()
