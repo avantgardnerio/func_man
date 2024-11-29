@@ -1,5 +1,6 @@
 mod pacman;
 
+use crate::math::Vec2d;
 use crate::reducers::pacman::pacman;
 use winit::event::VirtualKeyCode;
 
@@ -13,8 +14,8 @@ pub fn tick(state: &GameState, last_key: Option<VirtualKeyCode>) -> GameState {
 
 #[derive(Clone)]
 pub struct PacMan {
-    pub pos: [u32; 2],
-    pub vel: [i8; 2],
+    pub pos: Vec2d<i32>,
+    pub vel: Vec2d<i32>,
 }
 
 #[derive(Clone)]

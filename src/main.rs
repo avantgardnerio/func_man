@@ -1,5 +1,7 @@
+pub mod math;
 pub mod reducers;
 pub mod renderers;
+mod util;
 
 use femtovg::{renderer::OpenGl, Canvas};
 use raw_window_handle::HasRawWindowHandle;
@@ -44,8 +46,8 @@ fn run(
 ) {
     let mut state = GameState {
         pacman: PacMan {
-            pos: [104, 160],
-            vel: [0, 0],
+            pos: [104, 160].into(),
+            vel: [0, 0].into(),
         },
         time: 0,
         map: INITIAL_MAP,
