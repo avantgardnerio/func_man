@@ -1,4 +1,4 @@
-use crate::{GameState, PacMan};
+use crate::reducers::{GameState, PacMan};
 use winit::event::VirtualKeyCode;
 
 pub fn pacman(state: &GameState, last_key: Option<VirtualKeyCode>) -> PacMan {
