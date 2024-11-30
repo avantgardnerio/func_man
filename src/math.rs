@@ -1,19 +1,16 @@
 use std::ops::{Add, Div, Mul, Rem};
 
 #[derive(Debug, Copy, Clone)]
-pub struct Vec2d<T>
+pub struct Vec2d<T>(pub T, pub T)
 where
-    T: Add<Output = T> + Div<Output = T> + Mul<Output = T> + Rem<Output = T> + Copy + Sized,
-{
-    pub val: [T; 2],
-}
+    T: Add<Output = T> + Div<Output = T> + Mul<Output = T> + Rem<Output = T> + Copy + Sized;
 
 impl<T> Vec2d<T>
 where
     T: Add<Output = T> + Div<Output = T> + Mul<Output = T> + Rem<Output = T> + Copy + Sized,
 {
     pub fn len_sq(&self) -> T {
-        self.val[0] * self.val[0] + self.val[1] * self.val[1]
+        self.0 * self.0 + self.1 * self.1
     }
 }
 
@@ -22,7 +19,7 @@ where
     T: Add<Output = T> + Div<Output = T> + Mul<Output = T> + Rem<Output = T> + Copy + Sized,
 {
     fn from(value: [T; 2]) -> Self {
-        Self { val: value }
+        Self(value[0], value[1])
     }
 }
 
@@ -33,7 +30,7 @@ where
     type Output = Vec2d<T>;
 
     fn rem(self, rhs: T) -> Self::Output {
-        [self.val[0] % rhs, self.val[1] % rhs].into()
+        [self.0 % rhs, self.1 % rhs].into()
     }
 }
 
@@ -44,7 +41,7 @@ where
     type Output = Vec2d<T>;
 
     fn add(self, rhs: Vec2d<T>) -> Self::Output {
-        [self.val[0] + rhs.val[0], self.val[1] + rhs.val[1]].into()
+        [self.0 + rhs.0, self.1 + rhs.1].into()
     }
 }
 
@@ -55,6 +52,6 @@ where
     type Output = Vec2d<T>;
 
     fn div(self, rhs: T) -> Self::Output {
-        [self.val[0] / rhs, self.val[1] / rhs].into()
+        [self.0 / rhs, self.1 / rhs].into()
     }
 }
