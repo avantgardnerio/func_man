@@ -3,7 +3,7 @@ use femtovg::renderer::OpenGl;
 use femtovg::{Canvas, Color, Paint, Path};
 
 pub fn render_powerup(canvas: &mut Canvas<OpenGl>, x: f32, y: f32, time: f32) {
-    let time = time / 60.0;
+    let time = time / 30.0;
     let radius = ((time % PX_PER_CELL) - PX_PER_CELL / 2.0).abs();
     let x = x * PX_PER_CELL + PX_PER_CELL / 2.0;
     let y = y * PX_PER_CELL + PX_PER_CELL / 2.0;
