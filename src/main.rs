@@ -3,9 +3,10 @@ mod renderers;
 
 use femtovg::{renderer::OpenGl, Canvas};
 use raw_window_handle::HasRawWindowHandle;
-use std::num::NonZeroU32;
+use reducers::MS_PER_UPDATE;
 use std::thread;
 use std::time::Duration;
+use std::{num::NonZeroU32, time::Instant};
 
 use glutin::{
     config::ConfigTemplateBuilder,
@@ -31,15 +32,21 @@ const WINDOW_SIZE: u32 = 1124;
 const PX_PER_CELL: f32 = 8.0;
 
 #[derive(Clone)]
+struct Position {
+    x: f32,
+    y: f32,
+}
+
+#[derive(Clone)]
 struct PacMan {
-    pos: [u32; 2],
-    vel: [i8; 2],
+    pos: Position,
+    vel: [f32; 2],
 }
 
 #[derive(Clone)]
 struct GameState {
     pacman: PacMan,
-    time: usize,
+    time: u32,
     map: [[u8; 28]; 28],
 }
 
@@ -56,20 +63,22 @@ fn run(
 ) {
     let mut state = GameState {
         pacman: PacMan {
-            pos: [0, 0],
-            vel: [0, 0],
+            pos: Position { x: 0.0, y: 0.0 },
+            vel: [0.0, 0.0],
         },
         time: 0,
         map: INITIAL_MAP,
     };
     let mut last_key = None;
-
     let dpi_factor = window.scale_factor();
     let window_size = window.inner_size();
     thread::spawn(move || loop {
-        thread::sleep(Duration::from_millis(1000 / 30));
+        thread::sleep(Duration::from_millis(1000 / 60));
         window.request_redraw();
     });
+
+    let mut prev_timestep = Instant::now();
+    let mut lag = 0.0;
 
     el.run(move |event, _window, control_flow| {
         *control_flow = ControlFlow::Poll;
@@ -105,7 +114,14 @@ fn run(
                 canvas.reset();
                 canvas.scale(5.0, 5.0);
 
-                state = reducers::tick(&state, last_key);
+                let current_timestep = Instant::now();
+                lag += current_timestep.duration_since(prev_timestep).as_nanos() as f32 * 0.000001;
+                prev_timestep = current_timestep;
+
+                while lag > MS_PER_UPDATE {
+                    state = reducers::tick(&state, last_key);
+                    lag -= MS_PER_UPDATE;
+                }
                 render_scene(&mut canvas, &state);
 
                 canvas.restore();
