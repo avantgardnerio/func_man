@@ -46,7 +46,7 @@ struct PacMan {
 #[derive(Clone)]
 struct GameState {
     pacman: PacMan,
-    time: u32,
+    time: usize,
     map: [[u8; 28]; 28],
 }
 
