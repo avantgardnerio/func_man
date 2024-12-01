@@ -31,16 +31,19 @@ use winit::{event_loop::EventLoop, window::WindowBuilder};
 const WINDOW_SIZE: u32 = 1124;
 const PX_PER_CELL: f32 = 8.0;
 
-#[derive(Clone)]
-struct Position {
-    x: f32,
-    y: f32,
+#[derive(Clone, Copy)]
+struct Pos<T> {
+    x: T,
+    y: T,
 }
+
+type Position = Pos<f32>;
+type Movement = Pos<i8>;
 
 #[derive(Clone)]
 struct PacMan {
     pos: Position,
-    vel: [f32; 2],
+    vel: Movement,
 }
 
 #[derive(Clone)]
@@ -64,7 +67,7 @@ fn run(
     let mut state = GameState {
         pacman: PacMan {
             pos: Position { x: 0.0, y: 0.0 },
-            vel: [0.0, 0.0],
+            vel: Movement { x: 0, y: 0 },
         },
         time: 0,
         map: INITIAL_MAP,
