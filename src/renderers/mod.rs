@@ -4,12 +4,13 @@ mod pellet;
 mod powerup;
 mod wall;
 
+use crate::reducers::{GameState, Movement, Position};
 use crate::renderers::floor::render_floor;
 use crate::renderers::pacman::render_pacman;
 use crate::renderers::pellet::render_pellet;
 use crate::renderers::powerup::render_powerup;
 use crate::renderers::wall::render_wall;
-use crate::GameState;
+
 use femtovg::renderer::OpenGl;
 use femtovg::Canvas;
 
