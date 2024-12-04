@@ -3,6 +3,8 @@ mod pacman;
 use crate::reducers::pacman::pacman;
 use winit::event::VirtualKeyCode;
 
+pub const MS_PER_UPDATE: f32 = 1.0;
+
 pub fn tick(state: &GameState, last_key: Option<VirtualKeyCode>) -> GameState {
     GameState {
         pacman: pacman(state, last_key),
@@ -11,10 +13,19 @@ pub fn tick(state: &GameState, last_key: Option<VirtualKeyCode>) -> GameState {
     }
 }
 
+#[derive(Clone, Copy)]
+pub struct Pos<T> {
+    pub x: T,
+    pub y: T,
+}
+
+pub type Position = Pos<f32>;
+pub type Movement = Pos<i8>;
+
 #[derive(Clone)]
 pub struct PacMan {
-    pub pos: [u32; 2],
-    pub vel: [i8; 2],
+    pub pos: Position,
+    pub vel: Movement,
 }
 
 #[derive(Clone)]
