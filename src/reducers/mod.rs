@@ -1,6 +1,7 @@
 mod pacman;
 
 use crate::reducers::pacman::pacman;
+use std::ops::{Add, Div, Mul};
 use winit::event::VirtualKeyCode;
 
 pub const MS_PER_UPDATE: f32 = 1.0;
@@ -21,6 +22,59 @@ pub struct Pos<T> {
 
 pub type Position = Pos<f32>;
 pub type Movement = Pos<i8>;
+
+impl Add<Movement> for Position {
+    type Output = Position;
+
+    fn add(self, rhs: Movement) -> Self::Output {
+        Position {
+            x: self.x + rhs.x as f32,
+            y: self.y + rhs.y as f32,
+        }
+    }
+}
+
+impl Add<Pos<f32>> for Position {
+    type Output = Position;
+
+    fn add(self, rhs: Pos<f32>) -> Self::Output {
+        Self::Output {
+            x: self.x + rhs.x,
+            y: self.y + rhs.y,
+        }
+    }
+}
+
+impl Mul<f32> for Movement {
+    type Output = Pos<f32>;
+
+    fn mul(self, rhs: f32) -> Self::Output {
+        Self::Output {
+            x: self.x as f32 * rhs,
+            y: self.y as f32 * rhs,
+        }
+    }
+}
+
+impl Div<i32> for Position {
+    type Output = Pos<i32>;
+
+    fn div(self, rhs: i32) -> Self::Output {
+        Self::Output {
+            x: self.x.round() as i32 / rhs,
+            y: self.y.round() as i32 / rhs,
+        }
+    }
+}
+
+impl Position {
+    pub fn round(&self) -> Position {
+        Position {
+            x: self.x.round(),
+            y: self.y.round(),
+        }
+    }
+}
 
 #[derive(Clone)]
 pub struct PacMan {
