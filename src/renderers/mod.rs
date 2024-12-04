@@ -4,7 +4,7 @@ mod pellet;
 mod powerup;
 mod wall;
 
-use crate::reducers::{GameState, Movement, Position};
+use crate::reducers::GameState;
 use crate::renderers::floor::render_floor;
 use crate::renderers::pacman::render_pacman;
 use crate::renderers::pellet::render_pellet;
@@ -30,5 +30,5 @@ pub fn render_scene(canvas: &mut Canvas<OpenGl>, state: &GameState) {
     }
 
     // pacman
-    render_pacman(canvas, state.pacman.pos.x as f32, state.pacman.pos.y as f32);
+    render_pacman(canvas, state.pacman.pos.x, state.pacman.pos.y);
 }

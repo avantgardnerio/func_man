@@ -44,7 +44,7 @@ fn run(
 ) {
     let mut state = GameState {
         pacman: PacMan {
-            pos: Position { x: 0.0, y: 0.0 },
+            pos: Position { x: 104.0, y: 160.0 },
             vel: Movement { x: 0, y: 0 },
         },
         time: 0,
