@@ -1,6 +1,6 @@
-use femtovg::{Canvas, Color, Paint, Path};
-use femtovg::renderer::OpenGl;
 use crate::PX_PER_CELL;
+use femtovg::renderer::OpenGl;
+use femtovg::{Canvas, Color, Paint, Path};
 
 pub fn render_pellet(canvas: &mut Canvas<OpenGl>, x: f32, y: f32) {
     let radius = (PX_PER_CELL / 4.0).abs();

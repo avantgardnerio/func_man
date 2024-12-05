@@ -5,6 +5,8 @@ use crate::PX_PER_CELL;
 use winit::event::VirtualKeyCode;
 
 pub fn pacman(state: &GameState, last_key: Option<VirtualKeyCode>) -> PacMan {
+    // If pacman is exactly on a tile, and the tile in the direction of the last keypress is free, change direction
+    // Otherwise, retain existing velocity
     let desired_vel: Vec2d<i32> = match last_key {
         Some(VirtualKeyCode::Left) => [-1, 0].into(),
         Some(VirtualKeyCode::Up) => [0, -1].into(),
@@ -21,6 +23,7 @@ pub fn pacman(state: &GameState, last_key: Option<VirtualKeyCode>) -> PacMan {
         state.pacman.vel
     };
 
+    // Move pacman to the next position, unless that position collides with a wall
     let next_pos = state.pacman.pos + new_vel;
     let new_pos = if on_square && map_hit(state.map, cur_map_pos + new_vel) != 1 {
         state.pacman.pos
@@ -28,6 +31,7 @@ pub fn pacman(state: &GameState, last_key: Option<VirtualKeyCode>) -> PacMan {
         next_pos
     };
 
+    // Update and return the state
     PacMan {
         vel: new_vel,
         pos: new_pos,

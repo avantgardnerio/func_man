@@ -1,6 +1,8 @@
+mod map;
 mod pacman;
 
 use crate::math::Vec2d;
+use crate::reducers::map::map_reducer;
 use crate::reducers::pacman::pacman;
 use winit::event::VirtualKeyCode;
 
@@ -8,6 +10,7 @@ pub fn tick(state: &GameState, last_key: Option<VirtualKeyCode>) -> GameState {
     GameState {
         pacman: pacman(state, last_key),
         time: state.time + 1,
+        map: map_reducer(state),
         ..state.clone()
     }
 }
