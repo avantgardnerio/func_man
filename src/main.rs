@@ -1,7 +1,7 @@
 pub mod math;
 pub mod reducers;
 pub mod renderers;
-mod util;
+pub mod util;
 
 use femtovg::{renderer::OpenGl, Canvas};
 use raw_window_handle::HasRawWindowHandle;
@@ -19,7 +19,7 @@ use glutin::{
 
 use glutin_winit::DisplayBuilder;
 
-use crate::reducers::{GameState, PacMan, INITIAL_MAP};
+use crate::reducers::{GameState, MapCell, PacMan, INITIAL_MAP};
 use crate::renderers::render_scene;
 use femtovg::Color;
 use winit::event::ElementState;
@@ -44,13 +44,22 @@ fn run(
     surface: glutin::surface::Surface<WindowSurface>,
     window: Window,
 ) {
+    let map = INITIAL_MAP
+        .iter()
+        .map(|row| {
+            row.iter()
+                .map(|cell| MapCell::from(*cell))
+                .collect::<Vec<_>>()
+        })
+        .collect::<Vec<_>>();
+
     let mut state = GameState {
         pacman: PacMan {
             pos: [104, 160].into(),
             vel: [0, 0].into(),
         },
         time: 0,
-        map: INITIAL_MAP,
+        map,
     };
     let mut last_key = None;
 
