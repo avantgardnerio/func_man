@@ -19,7 +19,7 @@ pub fn render_scene(canvas: &mut Canvas<OpenGl>, state: &GameState) {
         for x in 0..state.map.len() as u32 {
             match state.map[y as usize][x as usize] {
                 0 => render_wall(canvas, x as f32, y as f32),
-                1 => render_pellet(),
+                1 => render_pellet(canvas, x as f32, y as f32),
                 2 => render_floor(),
                 3 => render_floor(),
                 4 => render_powerup(canvas, x as f32, y as f32, state.time as f32),
