@@ -1,7 +1,9 @@
+mod ghost;
 mod map;
 mod pacman;
 
 use crate::math::Vec2d;
+use crate::reducers::ghost::ghosts;
 use crate::reducers::map::map_reducer;
 use crate::reducers::pacman::pacman;
 use crate::reducers::MapCell::{Floor, GhostStart, Pellet, Powerup, Wall};
@@ -11,6 +13,7 @@ use winit::event::VirtualKeyCode;
 pub fn tick(state: &GameState, last_key: Option<VirtualKeyCode>) -> GameState {
     GameState {
         pacman: pacman(state, last_key),
+        ghosts: ghosts(state),
         time: state.time + 1,
         map: map_reducer(state),
         ..state.clone()
