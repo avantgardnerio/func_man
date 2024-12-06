@@ -19,7 +19,7 @@ use glutin::{
 
 use glutin_winit::DisplayBuilder;
 
-use crate::reducers::{GameState, MapCell, PacMan, INITIAL_MAP};
+use crate::reducers::{GameState, Ghost, MapCell, PacMan, INITIAL_MAP};
 use crate::renderers::render_scene;
 use femtovg::Color;
 use winit::event::ElementState;
@@ -58,6 +58,24 @@ fn run(
             pos: [104, 160].into(),
             vel: [0, 0].into(),
         },
+        ghosts: vec![
+            Ghost {
+                pos: [104, 88].into(),
+                vel: [0, -1].into(),
+            },
+            Ghost {
+                pos: [112, 88].into(),
+                vel: [0, -1].into(),
+            },
+            Ghost {
+                pos: [104, 96].into(),
+                vel: [0, -1].into(),
+            },
+            Ghost {
+                pos: [112, 96].into(),
+                vel: [0, -1].into(),
+            },
+        ],
         time: 0,
         map,
     };

@@ -1,4 +1,5 @@
 mod floor;
+mod ghost;
 mod pacman;
 mod pellet;
 mod powerup;
@@ -6,6 +7,7 @@ mod wall;
 
 use crate::reducers::{GameState, MapCell};
 use crate::renderers::floor::render_floor;
+use crate::renderers::ghost::render_ghost;
 use crate::renderers::pacman::render_pacman;
 use crate::renderers::pellet::render_pellet;
 use crate::renderers::powerup::render_powerup;
@@ -26,6 +28,11 @@ pub fn render_scene(canvas: &mut Canvas<OpenGl>, state: &GameState) {
             };
         }
     }
+
+    // ghosts
+    state.ghosts.iter().for_each(|ghost| {
+        render_ghost(canvas, ghost.pos.0 as f32, ghost.pos.1 as f32);
+    });
 
     // pacman
     render_pacman(canvas, state.pacman.pos.0 as f32, state.pacman.pos.1 as f32);

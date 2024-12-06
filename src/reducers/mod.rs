@@ -23,6 +23,12 @@ pub struct PacMan {
     pub vel: Vec2d<i32>,
 }
 
+#[derive(Clone)]
+pub struct Ghost {
+    pub pos: Vec2d<i32>,
+    pub vel: Vec2d<i32>,
+}
+
 #[derive(Serialize_repr, Deserialize_repr, Debug, PartialEq, Clone, Copy)]
 #[repr(u8)]
 pub enum MapCell {
@@ -49,6 +55,7 @@ impl From<u8> for MapCell {
 #[derive(Clone)]
 pub struct GameState {
     pub pacman: PacMan,
+    pub ghosts: Vec<Ghost>,
     pub time: usize,
     pub map: Vec<Vec<MapCell>>,
 }
