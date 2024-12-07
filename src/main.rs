@@ -77,6 +77,7 @@ fn run(
             },
         ],
         time: 0,
+        rand: 42,
         map,
     };
     let mut last_key = None;

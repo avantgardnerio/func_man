@@ -55,3 +55,14 @@ where
         [self.0 / rhs, self.1 / rhs].into()
     }
 }
+
+impl<T> Mul<T> for Vec2d<T>
+where
+    T: Add<Output = T> + Div<Output = T> + Mul<Output = T> + Rem<Output = T> + Eq + Copy + Sized,
+{
+    type Output = Vec2d<T>;
+
+    fn mul(self, rhs: T) -> Self::Output {
+        [self.0 * rhs, self.1 * rhs].into()
+    }
+}

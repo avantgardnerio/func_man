@@ -9,5 +9,6 @@ femtovg = "0.9.1"
 glutin = "0.30.0"
 glutin-winit = "0.3.0"
 raw-window-handle = "0.5.2"
+rand = { version = "0.8.5", features = ["small_rng"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_repr = "0.1"

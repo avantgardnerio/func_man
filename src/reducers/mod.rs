@@ -11,10 +11,12 @@ use serde_repr::{Deserialize_repr, Serialize_repr};
 use winit::event::VirtualKeyCode;
 
 pub fn tick(state: &GameState, last_key: Option<VirtualKeyCode>) -> GameState {
+    let (rand, ghosts) = ghosts(state);
     GameState {
+        ghosts,
         pacman: pacman(state, last_key),
-        ghosts: ghosts(state),
         time: state.time + 1,
+        rand,
         map: map_reducer(state),
         ..state.clone()
     }
@@ -60,6 +62,7 @@ pub struct GameState {
     pub pacman: PacMan,
     pub ghosts: Vec<Ghost>,
     pub time: usize,
+    pub rand: u64,
     pub map: Vec<Vec<MapCell>>,
 }
 
