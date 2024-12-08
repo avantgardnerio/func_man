@@ -50,13 +50,18 @@ pub fn ghosts(state: &GameState) -> (u64, Vec<Ghost>) {
             };
 
             let new_pos = ghost.pos + new_vel;
+            let final_pos = if state.pacman.dying > 0 {
+                ghost.pos
+            } else {
+                new_pos
+            };
 
             // if we hit a powered up pacman, die and go home
             let home_pos = if state.pacman.power > 0 && (ghost.pos - state.pacman.pos).len() < 10.0
             {
                 [104, 88].into()
             } else {
-                new_pos
+                final_pos
             };
 
             let ghost = Ghost {

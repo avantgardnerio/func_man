@@ -12,13 +12,18 @@ use winit::event::VirtualKeyCode;
 
 pub fn tick(state: &GameState, last_key: Option<VirtualKeyCode>) -> GameState {
     let (rand, ghosts) = ghosts(state);
-    GameState {
-        ghosts,
-        pacman: pacman(state, last_key),
-        time: state.time + 1,
-        rand,
-        map: map_reducer(state),
-        ..state.clone()
+    let pacman = pacman(state, last_key);
+    if pacman.dying > 100 {
+        initial_state()
+    } else {
+        GameState {
+            ghosts,
+            pacman,
+            time: state.time + 1,
+            rand,
+            map: map_reducer(state),
+            ..state.clone()
+        }
     }
 }
 
@@ -27,6 +32,7 @@ pub struct PacMan {
     pub pos: Vec2d<i32>,
     pub vel: Vec2d<i32>,
     pub power: i32,
+    pub dying: i32,
 }
 
 #[derive(Clone)]
@@ -65,6 +71,46 @@ pub struct GameState {
     pub time: usize,
     pub rand: u64,
     pub map: Vec<Vec<MapCell>>,
+}
+
+pub fn initial_state() -> GameState {
+    let map = INITIAL_MAP
+        .iter()
+        .map(|row| {
+            row.iter()
+                .map(|cell| MapCell::from(*cell))
+                .collect::<Vec<_>>()
+        })
+        .collect::<Vec<_>>();
+    GameState {
+        pacman: PacMan {
+            pos: [104, 160].into(),
+            vel: [0, 0].into(),
+            power: 0,
+            dying: 0,
+        },
+        ghosts: vec![
+            Ghost {
+                pos: [104, 88].into(),
+                vel: [0, -1].into(),
+            },
+            Ghost {
+                pos: [112, 88].into(),
+                vel: [0, -1].into(),
+            },
+            Ghost {
+                pos: [104, 96].into(),
+                vel: [0, -1].into(),
+            },
+            Ghost {
+                pos: [112, 96].into(),
+                vel: [0, -1].into(),
+            },
+        ],
+        time: 0,
+        rand: 42,
+        map,
+    }
 }
 
 #[rustfmt::skip]

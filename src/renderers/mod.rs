@@ -40,5 +40,10 @@ pub fn render_scene(canvas: &mut Canvas<OpenGl>, state: &GameState) {
     });
 
     // pacman
-    render_pacman(canvas, state.pacman.pos.0 as f32, state.pacman.pos.1 as f32);
+    render_pacman(
+        canvas,
+        state.pacman.dying,
+        state.pacman.pos.0 as f32,
+        state.pacman.pos.1 as f32,
+    );
 }

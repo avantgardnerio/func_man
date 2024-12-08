@@ -42,10 +42,30 @@ pub fn pacman(state: &GameState, last_key: Option<VirtualKeyCode>) -> PacMan {
         i32::max(0, state.pacman.power - 1)
     };
 
+    // Die when you hit a ghost
+    let dist = state
+        .ghosts
+        .iter()
+        .fold(f64::INFINITY, |accumulator, ghost| {
+            let dist = (ghost.pos - state.pacman.pos).len();
+            return if dist < accumulator {
+                dist
+            } else {
+                accumulator
+            };
+        });
+    let dying = if power <= 0 && dist < 10.0 {
+        state.pacman.dying + 1
+    } else {
+        state.pacman.dying
+    };
+    let final_pos = if dying > 0 { state.pacman.pos } else { new_pos };
+
     // Update and return the state
     PacMan {
         vel: new_vel,
-        pos: new_pos,
+        pos: final_pos,
         power,
+        dying,
     }
 }

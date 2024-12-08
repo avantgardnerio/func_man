@@ -19,7 +19,7 @@ use glutin::{
 
 use glutin_winit::DisplayBuilder;
 
-use crate::reducers::{GameState, Ghost, MapCell, PacMan, INITIAL_MAP};
+use crate::reducers::initial_state;
 use crate::renderers::render_scene;
 use femtovg::Color;
 use winit::event::ElementState;
@@ -44,43 +44,7 @@ fn run(
     surface: glutin::surface::Surface<WindowSurface>,
     window: Window,
 ) {
-    let map = INITIAL_MAP
-        .iter()
-        .map(|row| {
-            row.iter()
-                .map(|cell| MapCell::from(*cell))
-                .collect::<Vec<_>>()
-        })
-        .collect::<Vec<_>>();
-
-    let mut state = GameState {
-        pacman: PacMan {
-            pos: [104, 160].into(),
-            vel: [0, 0].into(),
-            power: 0,
-        },
-        ghosts: vec![
-            Ghost {
-                pos: [104, 88].into(),
-                vel: [0, -1].into(),
-            },
-            Ghost {
-                pos: [112, 88].into(),
-                vel: [0, -1].into(),
-            },
-            Ghost {
-                pos: [104, 96].into(),
-                vel: [0, -1].into(),
-            },
-            Ghost {
-                pos: [112, 96].into(),
-                vel: [0, -1].into(),
-            },
-        ],
-        time: 0,
-        rand: 42,
-        map,
-    };
+    let mut state = initial_state();
     let mut last_key = None;
 
     let dpi_factor = window.scale_factor();
