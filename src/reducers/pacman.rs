@@ -34,9 +34,18 @@ pub fn pacman(state: &GameState, last_key: Option<VirtualKeyCode>) -> PacMan {
         next_pos
     };
 
+    // Power up
+    let powerup = on_square && map_hit(&state.map, cur_map_pos) == MapCell::Powerup;
+    let power = if powerup {
+        60 * 5
+    } else {
+        i32::max(0, state.pacman.power - 1)
+    };
+
     // Update and return the state
     PacMan {
         vel: new_vel,
         pos: new_pos,
+        power,
     }
 }

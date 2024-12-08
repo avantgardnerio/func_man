@@ -57,6 +57,7 @@ fn run(
         pacman: PacMan {
             pos: [104, 160].into(),
             vel: [0, 0].into(),
+            power: 0,
         },
         ghosts: vec![
             Ghost {

@@ -26,6 +26,7 @@ pub fn tick(state: &GameState, last_key: Option<VirtualKeyCode>) -> GameState {
 pub struct PacMan {
     pub pos: Vec2d<i32>,
     pub vel: Vec2d<i32>,
+    pub power: i32,
 }
 
 #[derive(Clone)]

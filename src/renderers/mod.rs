@@ -31,7 +31,12 @@ pub fn render_scene(canvas: &mut Canvas<OpenGl>, state: &GameState) {
 
     // ghosts
     state.ghosts.iter().for_each(|ghost| {
-        render_ghost(canvas, ghost.pos.0 as f32, ghost.pos.1 as f32);
+        render_ghost(
+            canvas,
+            state.pacman.power,
+            ghost.pos.0 as f32,
+            ghost.pos.1 as f32,
+        );
     });
 
     // pacman
