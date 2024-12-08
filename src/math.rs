@@ -1,22 +1,52 @@
-use std::ops::{Add, Div, Mul, Rem};
+use std::ops::{Add, Div, Mul, Rem, Sub};
+
+pub trait Vec2dOps:
+    Add<Output = Self>
+    + Sub<Output = Self>
+    + Div<Output = Self>
+    + Mul<Output = Self>
+    + Rem<Output = Self>
+    + Into<f64>
+    + Eq
+    + Copy
+    + Sized
+{
+}
+
+impl<T> Vec2dOps for T where
+    T: Add<Output = T>
+        + Sub<Output = T>
+        + Div<Output = T>
+        + Mul<Output = T>
+        + Rem<Output = T>
+        + Into<f64>
+        + Eq
+        + Copy
+        + Sized
+{
+}
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub struct Vec2d<T>(pub T, pub T)
 where
-    T: Add<Output = T> + Div<Output = T> + Mul<Output = T> + Rem<Output = T> + Eq + Copy + Sized;
+    T: Vec2dOps;
 
 impl<T> Vec2d<T>
 where
-    T: Add<Output = T> + Div<Output = T> + Mul<Output = T> + Rem<Output = T> + Eq + Copy + Sized,
+    T: Vec2dOps,
 {
     pub fn len_sq(&self) -> T {
         self.0 * self.0 + self.1 * self.1
+    }
+
+    pub fn len(&self) -> f64 {
+        self.len_sq().into().sqrt()
     }
 }
 
 impl<T> From<[T; 2]> for Vec2d<T>
 where
-    T: Add<Output = T> + Div<Output = T> + Mul<Output = T> + Rem<Output = T> + Eq + Copy + Sized,
+    T: Vec2dOps,
 {
     fn from(value: [T; 2]) -> Self {
         Self(value[0], value[1])
@@ -25,7 +55,7 @@ where
 
 impl<T> Rem<T> for Vec2d<T>
 where
-    T: Add<Output = T> + Div<Output = T> + Mul<Output = T> + Rem<Output = T> + Eq + Copy + Sized,
+    T: Vec2dOps,
 {
     type Output = Vec2d<T>;
 
@@ -36,7 +66,7 @@ where
 
 impl<T> Add<Vec2d<T>> for Vec2d<T>
 where
-    T: Add<Output = T> + Div<Output = T> + Mul<Output = T> + Rem<Output = T> + Eq + Copy + Sized,
+    T: Vec2dOps,
 {
     type Output = Vec2d<T>;
 
@@ -45,9 +75,20 @@ where
     }
 }
 
+impl<T> Sub<Vec2d<T>> for Vec2d<T>
+where
+    T: Vec2dOps,
+{
+    type Output = Vec2d<T>;
+
+    fn sub(self, rhs: Vec2d<T>) -> Self::Output {
+        [self.0 - rhs.0, self.1 - rhs.1].into()
+    }
+}
+
 impl<T> Div<T> for Vec2d<T>
 where
-    T: Add<Output = T> + Div<Output = T> + Mul<Output = T> + Rem<Output = T> + Eq + Copy + Sized,
+    T: Vec2dOps,
 {
     type Output = Vec2d<T>;
 
@@ -58,7 +99,7 @@ where
 
 impl<T> Mul<T> for Vec2d<T>
 where
-    T: Add<Output = T> + Div<Output = T> + Mul<Output = T> + Rem<Output = T> + Eq + Copy + Sized,
+    T: Vec2dOps,
 {
     type Output = Vec2d<T>;
 
