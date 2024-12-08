@@ -1,12 +1,13 @@
+pub mod math;
 pub mod reducers;
 pub mod renderers;
+pub mod util;
 
 use femtovg::{renderer::OpenGl, Canvas};
 use raw_window_handle::HasRawWindowHandle;
-use reducers::{Movement, Position, MS_PER_UPDATE};
+use std::num::NonZeroU32;
 use std::thread;
 use std::time::Duration;
-use std::{num::NonZeroU32, time::Instant};
 
 use glutin::{
     config::ConfigTemplateBuilder,
@@ -18,7 +19,7 @@ use glutin::{
 
 use glutin_winit::DisplayBuilder;
 
-use crate::reducers::{GameState, PacMan, INITIAL_MAP};
+use crate::reducers::initial_state;
 use crate::renderers::render_scene;
 use femtovg::Color;
 use winit::event::ElementState;
@@ -31,6 +32,7 @@ use winit::{event_loop::EventLoop, window::WindowBuilder};
 
 const WINDOW_SIZE: u32 = 1124;
 const PX_PER_CELL: f32 = 8.0;
+
 fn main() {
     start(WINDOW_SIZE, WINDOW_SIZE, "Functional PacMan", false);
 }
@@ -42,24 +44,15 @@ fn run(
     surface: glutin::surface::Surface<WindowSurface>,
     window: Window,
 ) {
-    let mut state = GameState {
-        pacman: PacMan {
-            pos: Position { x: 0.0, y: 0.0 },
-            vel: Movement { x: 0, y: 0 },
-        },
-        time: 0,
-        map: INITIAL_MAP,
-    };
+    let mut state = initial_state();
     let mut last_key = None;
+
     let dpi_factor = window.scale_factor();
     let window_size = window.inner_size();
     thread::spawn(move || loop {
-        thread::sleep(Duration::from_millis(1000 / 60));
+        thread::sleep(Duration::from_millis(1000 / 30));
         window.request_redraw();
     });
-
-    let mut prev_timestep = Instant::now();
-    let mut lag = 0.0;
 
     el.run(move |event, _window, control_flow| {
         *control_flow = ControlFlow::Poll;
@@ -95,14 +88,7 @@ fn run(
                 canvas.reset();
                 canvas.scale(5.0, 5.0);
 
-                let current_timestep = Instant::now();
-                lag += current_timestep.duration_since(prev_timestep).as_nanos() as f32 * 0.000001;
-                prev_timestep = current_timestep;
-
-                while lag > MS_PER_UPDATE {
-                    state = reducers::tick(&state, last_key);
-                    lag -= MS_PER_UPDATE;
-                }
+                state = reducers::tick(&state, last_key);
                 render_scene(&mut canvas, &state);
 
                 canvas.restore();
