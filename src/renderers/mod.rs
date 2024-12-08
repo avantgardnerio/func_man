@@ -34,8 +34,8 @@ pub fn render_scene(canvas: &mut Canvas<OpenGl>, state: &GameState) {
         render_ghost(
             canvas,
             state.pacman.power,
-            ghost.pos.0 as f32,
-            ghost.pos.1 as f32,
+            ghost.pos.x as f32,
+            ghost.pos.y as f32,
         );
     });
 
@@ -43,7 +43,7 @@ pub fn render_scene(canvas: &mut Canvas<OpenGl>, state: &GameState) {
     render_pacman(
         canvas,
         state.pacman.dying,
-        state.pacman.pos.0 as f32,
-        state.pacman.pos.1 as f32,
+        state.pacman.pos.x as f32,
+        state.pacman.pos.y as f32,
     );
 }

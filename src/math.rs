@@ -27,16 +27,20 @@ impl<T> Vec2dOps for T where
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
-pub struct Vec2d<T>(pub T, pub T)
+pub struct Vec2d<T>
 where
-    T: Vec2dOps;
+    T: Vec2dOps,
+{
+    pub x: T,
+    pub y: T,
+}
 
 impl<T> Vec2d<T>
 where
     T: Vec2dOps,
 {
     pub fn len_sq(&self) -> T {
-        self.0 * self.0 + self.1 * self.1
+        self.x * self.x + self.y * self.y
     }
 
     pub fn len(&self) -> f64 {
@@ -49,7 +53,10 @@ where
     T: Vec2dOps,
 {
     fn from(value: [T; 2]) -> Self {
-        Self(value[0], value[1])
+        Self {
+            x: value[0],
+            y: value[1],
+        }
     }
 }
 
@@ -60,7 +67,7 @@ where
     type Output = Vec2d<T>;
 
     fn rem(self, rhs: T) -> Self::Output {
-        [self.0 % rhs, self.1 % rhs].into()
+        [self.x % rhs, self.y % rhs].into()
     }
 }
 
@@ -71,7 +78,7 @@ where
     type Output = Vec2d<T>;
 
     fn add(self, rhs: Vec2d<T>) -> Self::Output {
-        [self.0 + rhs.0, self.1 + rhs.1].into()
+        [self.x + rhs.x, self.y + rhs.y].into()
     }
 }
 
@@ -82,7 +89,7 @@ where
     type Output = Vec2d<T>;
 
     fn sub(self, rhs: Vec2d<T>) -> Self::Output {
-        [self.0 - rhs.0, self.1 - rhs.1].into()
+        [self.x - rhs.x, self.y - rhs.y].into()
     }
 }
 
@@ -93,7 +100,7 @@ where
     type Output = Vec2d<T>;
 
     fn div(self, rhs: T) -> Self::Output {
-        [self.0 / rhs, self.1 / rhs].into()
+        [self.x / rhs, self.y / rhs].into()
     }
 }
 
@@ -104,6 +111,6 @@ where
     type Output = Vec2d<T>;
 
     fn mul(self, rhs: T) -> Self::Output {
-        [self.0 * rhs, self.1 * rhs].into()
+        [self.x * rhs, self.y * rhs].into()
     }
 }
